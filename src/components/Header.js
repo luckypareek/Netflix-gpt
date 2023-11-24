@@ -1,18 +1,44 @@
-import { signOut } from 'firebase/auth';
-import React from 'react'
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useEffect } from 'react'
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice'
+import { LOGO, USER_AVATAR } from '../utils/constants';
 
 const Header = () => {
 
   const navigate=useNavigate()
   const user=useSelector(store=>store.user)
-  
+  const dispatch =useDispatch()
+
+  useEffect(()=>{
+    
+    // onauthstatechage returns a function unsubscribe using which we can remove this event listner 
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+         
+        const {uid,email,displayName}=user
+        dispatch(addUser({uid:uid,email:email,displayName:displayName}))
+        navigate("/browse")
+ 
+        // ...
+      } else {
+        // User is signed out
+        dispatch(removeUser())
+        navigate("/")
+      }
+    });
+    // unsubscribing to onauthstatechange() event listner when component unmounts
+    return ()=> unsubscribe()
+
+  },[])
+ 
+
 
   const handleSignOut=()=>{
     signOut(auth).then(() => {
-       navigate("/")
+    
     }).catch((error) => {
       
       navigate("/error")
@@ -24,14 +50,14 @@ const Header = () => {
         <img 
         className='w-48 '
         alt="logo"
-        src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={LOGO}
         
         
         />
         { user &&
         <div className='flex p-4'>
           <img
-           src="https://i.pinimg.com/474x/5b/50/e7/5b50e75d07c726d36f397f6359098f58.jpg"
+           src={USER_AVATAR}
            alt="usericon"
            className='w-12 h-12'
            />
