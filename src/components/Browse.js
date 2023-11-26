@@ -10,11 +10,16 @@ import usePopularMovies from '../hooks/usePopularMovies'
 import useTopRatedMovies from '../hooks/useTopRatedMovies'
 import useUpcomingMovies from '../hooks/useUpcomingMovies'
 import GptSearch from './GptSearch'
-import { toggleGptSearchView } from '../utils/gptSlice'
+import { OpenGptSearchView, toggleGptSearchView } from '../utils/gptSlice'
 
 const Browse = () => {
 
   const showGptSearchView=useSelector(store => store.gpt.showGptSearchView)
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+    dispatch(OpenGptSearchView())
+  },[])
 
    useNowPlayingMovies()
    usePopularMovies()
