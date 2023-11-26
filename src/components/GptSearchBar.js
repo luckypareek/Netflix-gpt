@@ -45,15 +45,15 @@ const GptSearchBar = () => {
 
     const langKey=useSelector(store=> store.config.lang)
   return (
-    <div className='pt-[10%] flex justify-center'>
-        <form className='w-1/2 bg-black  grid grid-cols-12 ' onSubmit={(e)=>e.preventDefault()}> 
+    <div className='pt-[45%] md:pt-[10%] flex justify-center'>
+        <form className='w-full md:w-1/2 bg-black  grid grid-cols-12 ' onSubmit={(e)=>e.preventDefault()}> 
             <input 
              type='text' 
              className='col-span-10 p-4 m-4 ' 
              placeholder={lang[langKey].gptSearchPlaceHolder} 
              ref={searchText}
              />
-            <button className='col-span-2 py-2 px-4 m-4 bg-red-700 rounded-lg text-white' onClick={handleGptSearchClick}>{lang[langKey].search}</button>
+            <button className='col-span-2 py-2 px-4 mx-2 my-4 bg-red-700 rounded-lg text-white' onClick={handleGptSearchClick}>{lang[langKey].search}</button>
         </form>
     </div>
   )

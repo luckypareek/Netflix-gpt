@@ -91,15 +91,16 @@ const dispatch=useDispatch()
   return (
     <div>
         <Header/>
-        <div className='absolute'>
+        <div className='absolute '>
             <img
+            className='h-screen object-cover  md:h-full'
             alt="logo"
             src={BACKGROUND_IMG}
             />
         </div>
         <form 
          onSubmit={(e)=>e.preventDefault()}
-         className='absolute bg-black p-12  w-3/12 mt-40 mx-auto left-0 right-0 text-white rounded-lg bg-opacity-80'
+         className='absolute bg-black p-12 w-full md:w-3/12 mt-40 mx-auto left-0 right-0 text-white rounded-lg bg-opacity-80'
          >
           <h1 className=' text-2xl py-4'>{isSignInForm ?"Sign In" :"Sign Up"}</h1>
           {!isSignInForm && 
