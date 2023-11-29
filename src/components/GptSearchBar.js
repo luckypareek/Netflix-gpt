@@ -1,14 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import lang from '../utils/languageConstants'
 import { useDispatch, useSelector } from 'react-redux'
 import openai from "../utils/openai"
 import { API_OPTIONS } from '../utils/constants'
-import { addGptMovieResult } from '../utils/gptSlice'
+import { addGptMovieResult, addSearchQueryErrorMsg, startFetching } from '../utils/gptSlice'
+import { checkValidMoviveQuery } from '../utils/validate'
 
 const GptSearchBar = () => {
 
    const searchText=useRef(null)
    const dispatch=useDispatch()
+
 
    const searchMovieTMDB = async (movie)=>{
     const movie_data=await fetch(`https://api.themoviedb.org/3/search/movie?query=${movie}&include_adult=false&page=1`,API_OPTIONS)
@@ -19,14 +21,25 @@ const GptSearchBar = () => {
 
     const handleGptSearchClick =async ()=>{
       //Make an API call to Gpt and get movies results
+
+       dispatch(addGptMovieResult({movieNames:null,movieResults:null}))
+
+      const  msg=checkValidMoviveQuery(searchText.current.value)
+      dispatch(addSearchQueryErrorMsg(msg))
+      if(msg){
+      
+       return
+
+      }
+
+      dispatch(startFetching())
       const gptQuery="Act as a Movie recommendation system and suggest some movies for the query : "+searchText.current.value + ". Only give me names of 5 movies , comma seperated like the example result given ahead. Example Result : Gadar , Don , Sholay , Partner , Andaz Apna Apna"
       const gptResults = await openai.chat.completions.create({
         messages: [{ role: 'user', content:gptQuery }],
         model: 'gpt-3.5-turbo',
       });
       
-      if(!gptResults.choices){}
-        // DO error handling .
+
 
      
       const gptMovies=gptResults.choices?.[0]?.message?.content.split(",")
@@ -54,6 +67,7 @@ const GptSearchBar = () => {
              ref={searchText}
              />
             <button className='col-span-2 py-2 px-4 mx-2 my-4 bg-red-700 rounded-lg text-white' onClick={handleGptSearchClick}>{lang[langKey].search}</button>
+           
         </form>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { API_OPTIONS } from "../utils/constants"
 import { useEffect } from "react"
 import { addTrailerVideo } from "../utils/movieSlice"
@@ -7,8 +7,11 @@ import { addTrailerVideo } from "../utils/movieSlice"
 const useMovieTrailer =(movieId)=>{
 
     const dispatch=useDispatch()
+    const trailerVideo=useSelector(store => store.movies.trailerVideo)
 
     useEffect(()=>{
+        // If data is already present in store then dont make api call else make it 
+        if(!trailerVideo)
         getMovieVideos()
     },[])
      

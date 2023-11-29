@@ -34,7 +34,7 @@ const dispatch=useDispatch()
        }
 
        if(!isSignInForm){
-
+      //sign up logic
      createUserWithEmailAndPassword(auth,emailRef.current.value, passwordRef.current.value)
      .then((userCredential) => {
     // Signed up 
@@ -65,7 +65,7 @@ const dispatch=useDispatch()
 
        }
        else{
-              
+              //sign in logic
 
     signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
   .then((userCredential) => {

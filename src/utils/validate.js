@@ -14,3 +14,20 @@ export const checkValidData=(email,password,name=null) =>{
     return null
 
 }
+
+
+export const checkValidMoviveQuery =(query)=>{
+
+
+   //To Do  Validation for empty spaces 
+   if(/^\s*$/.test(query))
+   return "Please Enter valid Movie name"
+     
+
+   //correction needed it is throwing error for spaces betweeen names 
+    const queryCheck=/^[A-Za-z0-9,. ]+$/.test(query)
+    if(!queryCheck)
+      return "Please Enter valid Movie name"
+
+    return null
+}
