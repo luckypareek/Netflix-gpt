@@ -8,6 +8,7 @@ import { LOGO, SUPPORTED_LANGUAGES, USER_AVATAR } from '../utils/constants';
 import {toggleGptSearchView} from "../utils/gptSlice"
 import { changeLanguage } from '../utils/configSlice';
 
+
 const Header = () => {
 
   const navigate=useNavigate()
@@ -57,13 +58,13 @@ const Header = () => {
 
   return (
     <div className='absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-screen justify-between flex flex-col md:flex-row'>
+    
         <img 
         className='w-48 mx-auto md:mx-0'
         alt="logo"
         src={LOGO}
-        
-        
-        />
+         />
+      
         { user &&
         <div className='flex p-4 justify-between'>
           { showGptSearchView &&
